@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>QR Code SSJS + AMPScript Demo</title>
+    </head>
+    <body>
+        <script runat="server">
+            <!-- src/qrcode.sfmc.ssjs.js -->
+        </script>
+        %%[
+            /* Custom AMPScript implementation */
+            VAR @qrCodeData, @qrCodeHtmlTable
+            /* Default when no data parameter present */
+            SET @qrCodeData = "https://www.salesforce.com"
+            /* URL query string or POST form-data value */
+            IF NOT EMPTY(RequestParameter("data")) THEN
+            SET @qrCodeData = RequestParameter("data")
+            ENDIF
+        ]%%
+        <script runat="server">
+        try {
+            // For SVG, content type can be image/svg+xml.
+            // Plain text removes HTML tags, making it easier
+            // to retrieve the image via HTTP GET/POST request
+            // HTTPHeader.SetValue("Content-Type", "text/plain;charset=UTF-8");
+            var qrd = Variable.GetValue("@qrCodeData");
+            var qrt = new QRCode({
+                "content": qrd
+            }).table();
+            Variable.SetValue("@qrCodeHtmlTable", qrt);
+        } catch (e) {
+            Write(Stringify(e.toString()));
+        }
+        </script>
+        %%=v(@qrCodeHtmlTable)=%%
+    </body>
+</html>
