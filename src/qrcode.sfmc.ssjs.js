@@ -852,8 +852,8 @@ QRCode.prototype.table = function() {
 
     // Removing inline style significantly compresses table size
     var inlineStyle = typeof options.inlineStyle != "undefined" ? !!options.inlineStyle : true;
-    // If inline styling is removed, one CSS class will be added to each dark/true module
-    var moduleClassName = 'q';
+    // If inline styling is removed, one or more CSS classes will be added to each dark/true module
+    var dataModuleClassNames = 'd';
     
     var aHTML = ['<table' + (inlineStyle ? " style=\"border:0;border-collapse:collapse\"" : "") + '>' + EOL];
 
@@ -864,7 +864,7 @@ QRCode.prototype.table = function() {
             if (inlineStyle) {
                 aHTML.push(indent + indent + '<td style="border:0;border-collapse:collapse;padding:0;margin:0;width:' + nWidth + 'px;height:' + nHeight + 'px;background-color:' + (module ? options.color : options.background) + ';"></td>' + EOL);
             } else {
-                aHTML.push(indent + indent + '<td' + (module ? " class=\"" + moduleClassName + "\"": "") + '></td>' + EOL);
+                aHTML.push(indent + indent + '<td' + (module ? " class=\"" + dataModuleClassNames + "\"": "") + '></td>' + EOL);
             }
         }
         aHTML.push(indent + '</tr>' + EOL);

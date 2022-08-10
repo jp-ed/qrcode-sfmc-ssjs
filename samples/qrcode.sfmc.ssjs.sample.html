@@ -2,6 +2,22 @@
 <html>
     <head>
         <title>QR Code SSJS + AMPScript Demo</title>
+        <style>
+            #qrcode table {
+                border: 0;
+                border-collapse: collapse;
+                height: 300px;
+                width: 300px;
+            }
+            #qrcode table tr td {
+                padding: 0;
+                margin: 0;
+                background-color: white;
+            }
+            #qrcode table tr .d {
+                background-color: black;
+            }           
+        </style>
     </head>
     <body>
         <script runat="server">
@@ -25,13 +41,17 @@
             // HTTPHeader.SetValue("Content-Type", "text/plain;charset=UTF-8");
             var qrd = Variable.GetValue("@qrCodeData");
             var qrt = new QRCode({
-                "content": qrd
+                "content": qrd,
+                "inlineStyle" : false,
+                "pretty" : false
             }).table();
             Variable.SetValue("@qrCodeHtmlTable", qrt);
         } catch (e) {
             Write(Stringify(e.toString()));
         }
         </script>
-        %%=v(@qrCodeHtmlTable)=%%
+        <div id="qrcode">
+            %%=v(@qrCodeHtmlTable)=%%
+        </div>
     </body>
 </html>
