@@ -1,6 +1,6 @@
 /*
  *    Marketing Cloud Server-Side JavaScript (SSJS) QR Code Generator
- *    Version 1.0, June 2022
+ *    Version 1.1, August 2022
  *
  *    © QR Code is a trademark of DENSO WAVE INCORPORATED  
  */
@@ -847,16 +847,25 @@ QRCode.prototype.table = function() {
     var EOL = pretty ? '\r\n' : '';
     
     var nCount = modules.length;
-    var nWidth = width / nCount;
-    var nHeight = height / nCount;
+    var nWidth = (width / nCount).toFixed(0);
+    var nHeight = (height / nCount).toFixed(0);
+
+    // Removing inline style significantly compresses table size
+    var inlineStyle = typeof options.inlineStyle != "undefined" ? !!options.inlineStyle : true;
+    // If inline styling is removed, one CSS class will be added to each dark/true module
+    var moduleClassName = 'q';
     
-    var aHTML = ['<table style="border:0;border-collapse:collapse;">' + EOL];
+    var aHTML = ['<table' + (inlineStyle ? " style=\"border:0;border-collapse:collapse\"" : "") + '>' + EOL];
 
     for (var row = 0; row < nCount; row++) {
         aHTML.push(indent + '<tr>' + EOL);
         for (var col = 0; col < nCount; col++) {
             var module = modules[row][col];
-            aHTML.push(indent + indent + '<td style="border:0;border-collapse:collapse;padding:0;margin:0;width:' + nWidth + 'px;height:' + nHeight + 'px;background-color:' + (module ? options.color : options.background) + ';"></td>' + EOL);
+            if (inlineStyle) {
+                aHTML.push(indent + indent + '<td style="border:0;border-collapse:collapse;padding:0;margin:0;width:' + nWidth + 'px;height:' + nHeight + 'px;background-color:' + (module ? options.color : options.background) + ';"></td>' + EOL);
+            } else {
+                aHTML.push(indent + indent + '<td' + (module ? " class=\"" + moduleClassName + "\"": "") + '></td>' + EOL);
+            }
         }
         aHTML.push(indent + '</tr>' + EOL);
     }

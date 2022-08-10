@@ -46,6 +46,11 @@ A Server-Side JavaScript (SSJS) application for use in email and landing pages.
 | `ecl` | L | No | The [error correction level](https://en.wikipedia.org/wiki/QR_code#Error_correction) of the QR code |
 | `pretty` | `true` | No | Apply indents and new lines to returned text |
 
+ ### HTML Table-only Options
+ | Name | Default | Required | Description |
+ | --- | --- | --- | --- |
+ | `inlineStyle` | `true` | No | Apply inline CSS to the HTML table and each data cell element using the options above. Setting this to false removes the `width`, `height`, `color`, and `background` options, forcing you to recreate them outside the QR code with a style sheet. Given the file size constraints of email, `false` is recommended. |
+
  ### SVG-only Options
  | Name | Default | Required | Description |
  | --- | --- | --- | --- |
